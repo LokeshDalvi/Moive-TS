@@ -9,7 +9,7 @@ function Home() {
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadPoppularMovies = async () => {
@@ -41,8 +41,6 @@ function Home() {
     } finally {
       setLoading(false);
     }
-
-    
   };
   return (
     <div className="home">
@@ -63,7 +61,15 @@ function Home() {
       {error && <div className="error-message">{error}</div>}
 
       {loading ? (
-        <div className="loading">Loading...</div>
+        <div className="spinner-overlay">
+          <div className="spinner" />
+        </div>
+      ) : error ? (
+        <div className="error">{error}</div>
+      ) : movies.length === 0 ? (
+        <div className="no-results">
+          No movies found. Try a different search.
+        </div>
       ) : (
         <div className="movies-grid">
           {movies.map((movie) => (
